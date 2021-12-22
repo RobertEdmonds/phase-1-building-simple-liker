@@ -3,8 +3,39 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
-
-
+// function likeAction(){
+//   const hide = document.querySelector('#modal')
+//   const hidden = hide.classList.add('hidden')
+//   document.querySelector('.like-glyph').addEventListener('submit', mimicServerCall(e => {
+//     e.preventDefault()
+//     if (EMPTY_HEART == true){
+//       console.log('hi')
+//     }
+//   }))
+// }
+const firstHeart = document.querySelectorAll('.like-glyph')
+const allHeart = Array.from(firstHeart)
+allHeart.forEach(heart => heart.addEventListener('click', handleLike))
+const hide = document.querySelector('#modal')
+hide.classList.add('hidden')
+function handleLike(e){
+  const heartBtn = e.target
+  mimicServerCall()
+  .then(()=>{
+    // fill the heart and update
+    if(heartBtn.firstChild.nodeValue == '♡'){ 
+      const likeHeart = heartBtn.classList.add('activated-heart')
+      heartBtn.replaceChildren(FULL_HEART)}
+    else{
+      heartBtn.classList.remove('activated-heart')
+      heartBtn.replaceChildren(EMPTY_HEART)
+    }
+  })
+  .catch(() => {
+    hide.classList.remove('hidden')
+    setTimeout(() => hide.classList.add('hidden'),3000)
+  })
+}
 
 
 //------------------------------------------------------------------------------
